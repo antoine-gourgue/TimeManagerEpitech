@@ -1,0 +1,8 @@
+# Exclure les fichiers de build et de dépendances
+_build/
+deps/
+node_modules/
+
+# Autres fichiers non nécessaires
+*.log
+*.lock
