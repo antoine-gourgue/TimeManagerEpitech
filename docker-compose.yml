@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: time_manager_dev
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  elixir_backend:
+    container_name: elixir_backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    networks:
+      - app_network
+#  api:
+#    build:
+#      context: ./backend
+#      dockerfile: Dockerfile
+#    environment:
+#      DATABASE_URL: postgres://postgres:postgres@db:5432/time_manager_dev
+#      SECRET_KEY_BASE: "3uorD95gzCoVZf5hksvuoriB21GF7AOnClZgbU5Aw7TX4L++CrtvniDuKrSUGeNW"
+#      MIX_ENV: dev
+#    volumes:
+#      - ./backend:/app
+#    ports:
+#      - "4000:4000"
+#    depends_on:
+#      - db
+#    networks:
+#      - app_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+        - CHOKIDAR_USEPOLLING=true
+    command: npm run dev -- --host 0.0.0.0
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  db_data:
