@@ -1,0 +1,53 @@
+name: 🛠️ Backend CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14-alpine
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres" 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: time_manager_test
+
+    env:
+      MIX_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/time_manager_test
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v2
+
+      - name: 🧰 Set up Elixir
+        uses: actions/setup-elixir@v1
+        with:
+          otp-version: 24
+          elixir-version: 1.14
+
+      - name: 📦 Install dependencies
+        run: mix deps.get
+
+      - name: 🗄️ Setup the database
+        run: |
+          mix ecto.create
+          mix ecto.migrate
+
+      - name: ✅ Run tests
+        run: mix test
