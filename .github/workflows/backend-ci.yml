@@ -42,12 +42,15 @@ jobs:
           elixir-version: 1.14
 
       - name: 📦 Install dependencies
+        working-directory: ./TimeManager/backend
         run: mix deps.get
 
       - name: 🗄️ Setup the database
+        working-directory: ./TimeManager/backend
         run: |
           mix ecto.create
           mix ecto.migrate
 
       - name: ✅ Run tests
+        working-directory: ./TimeManager/backend
         run: mix test

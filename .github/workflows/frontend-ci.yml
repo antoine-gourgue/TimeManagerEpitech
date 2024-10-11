@@ -22,10 +22,13 @@ jobs:
           node-version: '18'
 
       - name: 📦 Install dependencies
+        working-directory: ./TimeManager/frontend
         run: npm install
 
       - name: ✅ Run tests
+        working-directory: ./TimeManager/frontend
         run: npm run test
 
       - name: 🛠️ Build project
+        working-directory: ./TimeManager/frontend
         run: npm run build
