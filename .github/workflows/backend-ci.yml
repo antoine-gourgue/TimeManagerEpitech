@@ -40,7 +40,6 @@ jobs:
       - name: Install Elixir dependencies
         run: mix deps.get
 
-
       - name: 📦 Install dependencies
         working-directory: ./backend
         run: mix deps.get
