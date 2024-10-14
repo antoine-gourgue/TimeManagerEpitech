@@ -25,7 +25,9 @@ services:
       - ./backend:/app
     networks:
       - app_network
-#  api:
+    command: ["sh", "-c", "mix deps.get && mix ecto.migrate && mix phx.server"]
+
+    #  api:
 #    build:
 #      context: ./backend
 #      dockerfile: Dockerfile
