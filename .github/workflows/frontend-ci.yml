@@ -22,9 +22,9 @@ jobs:
           node-version: '20.18.0'
 
       - name: 📦 Install dependencies
-        working-directory: ./TimeManager/frontend
+        working-directory: ./frontend
         run: npm install
 
       - name: 🛠️ Build project
-        working-directory: ./TimeManager/frontend
+        working-directory: ./frontend
         run: npm run build

@@ -42,9 +42,9 @@ jobs:
 
 
       - name: 📦 Install dependencies
-        working-directory: ./TimeManager/backend
+        working-directory: ./backend
         run: mix deps.get
 
       - name: 🔨 Run tests
-        working-directory: ./TimeManager/backend
+        working-directory: ./backend
         run: mix test
