@@ -14,7 +14,7 @@ defmodule TimeManager.Tracking.WorkingTime do
   @doc false
   def changeset(working_time, attrs) do
     working_time
-    |> cast(attrs, [:type, :start_time, :end_time])
-    |> validate_required([:type, :start_time, :end_time])
+    |> cast(attrs, [:type, :start_time, :end_time,:user_id])
+    |> validate_required([:type, :start_time, :end_time,:user_id])
   end
 end
