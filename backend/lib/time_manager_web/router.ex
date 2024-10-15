@@ -24,8 +24,8 @@ defmodule TimeManagerWeb.Router do
     resources "/roles", RoleController, except: [:new, :edit]
 
     # Routes pour les horloges (Clocks)
-    resources "/clocks", ClockController, only: [:index, :show, :create]
-
+    resources "/clocks", ClockController, only: [:index, :show, :create, :update, :delete]
+    get "/clocks/users/:user_id", ClockController, :index_for_user 
     # Routes pour les temps de travail (Working Times)
     resources "/working_times", WorkingTimeController, except: [:new, :edit]
     get "/working_times/users/:user_id", WorkingTimeController, :index_for_user  # Temps de travail pour un utilisateur
