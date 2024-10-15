@@ -296,97 +296,41 @@ defmodule TimeManager.Accounts do
 
   alias TimeManager.Accounts.UserTeam
 
-  @doc """
-  Returns the list of user_teams.
+    @doc """
+    Returns the list of user_teams.
+    """
+    def list_user_teams do
+      Repo.all(UserTeam)
+    end
 
-  ## Examples
+    @doc """
+    Gets a single user_team.
+    Raises `Ecto.NoResultsError` if the User team does not exist.
+    """
+    def get_user_team!(id), do: Repo.get!(UserTeam, id)
 
-      iex> list_user_teams()
-      [%UserTeam{}, ...]
-
-  """
-  def list_user_teams do
-    Repo.all(UserTeam)
-  end
-
-  @doc """
-  Gets a single user_team.
-
-  Raises `Ecto.NoResultsError` if the User team does not exist.
-
-  ## Examples
-
-      iex> get_user_team!(123)
+    @doc """
+    Creates a user_team.
+    """
+    def create_user_team(attrs \\ %{}) do
       %UserTeam{}
+      |> UserTeam.changeset(attrs)
+      |> Repo.insert()
+    end
 
-      iex> get_user_team!(456)
-      ** (Ecto.NoResultsError)
+    @doc """
+    Updates a user_team.
+    """
+    def update_user_team(%UserTeam{} = user_team, attrs) do
+      user_team
+      |> UserTeam.changeset(attrs)
+      |> Repo.update()
+    end
 
-  """
-  def get_user_team!(id), do: Repo.get!(UserTeam, id)
-
-  @doc """
-  Creates a user_team.
-
-  ## Examples
-
-      iex> create_user_team(%{field: value})
-      {:ok, %UserTeam{}}
-
-      iex> create_user_team(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_user_team(attrs \\ %{}) do
-    %UserTeam{}
-    |> UserTeam.changeset(attrs)
-    |> Repo.insert()
+    @doc """
+    Deletes a user_team.
+    """
+    def delete_user_team(%UserTeam{} = user_team) do
+      Repo.delete(user_team)
+    end
   end
-
-  @doc """
-  Updates a user_team.
-
-  ## Examples
-
-      iex> update_user_team(user_team, %{field: new_value})
-      {:ok, %UserTeam{}}
-
-      iex> update_user_team(user_team, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_user_team(%UserTeam{} = user_team, attrs) do
-    user_team
-    |> UserTeam.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a user_team.
-
-  ## Examples
-
-      iex> delete_user_team(user_team)
-      {:ok, %UserTeam{}}
-
-      iex> delete_user_team(user_team)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_user_team(%UserTeam{} = user_team) do
-    Repo.delete(user_team)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user_team changes.
-
-  ## Examples
-
-      iex> change_user_team(user_team)
-      %Ecto.Changeset{data: %UserTeam{}}
-
-  """
-  def change_user_team(%UserTeam{} = user_team, attrs \\ %{}) do
-    UserTeam.changeset(user_team, attrs)
-  end
-end

@@ -13,7 +13,15 @@ defmodule TimeManager.Tracking.Clock do
   @doc false
   def changeset(clock, attrs) do
     clock
-    |> cast(attrs, [:status, :time])
-    |> validate_required([:status, :time])
+    |> cast(attrs, [:status, :time, :user_id])
+    |> validate_required([:status, :time, :user_id])
+  end
+
+  def clock_in(user_id) do
+    # Logique pour clock in
+  end
+
+  def clock_out(user_id) do
+    # Logique pour clock out
   end
 end

@@ -6,7 +6,7 @@ defmodule TimeManager.Accounts.User do
     field :username, :string
     field :password, :string
     field :email, :string
-    field :role_id, :id
+    field :role_id, :integer
 
     timestamps(type: :utc_datetime)
   end
@@ -14,7 +14,7 @@ defmodule TimeManager.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email, :password])
-    |> validate_required([:username, :email, :password])
+    |> cast(attrs, [:username, :email, :password, :role_id])
+    |> validate_required([:username, :email, :password, :role_id])
   end
 end

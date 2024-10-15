@@ -3,7 +3,6 @@ defmodule TimeManager.Accounts.UserTeam do
   import Ecto.Changeset
 
   schema "user_teams" do
-
     field :user_id, :id
     field :team_id, :id
 
@@ -13,7 +12,7 @@ defmodule TimeManager.Accounts.UserTeam do
   @doc false
   def changeset(user_team, attrs) do
     user_team
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:user_id, :team_id])
+    |> validate_required([:user_id, :team_id])
   end
 end

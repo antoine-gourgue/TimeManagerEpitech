@@ -33,5 +33,8 @@ defmodule TimeManagerWeb.Router do
 
     # Routes pour les logs d'audit (Audit Logs)
     resources "/audit_logs", AuditLogController, only: [:index, :show, :create, :delete]
+
+    # Routes pour les associations utilisateurs-équipes (User Teams)
+    resources "/user_teams", UserTeamController, except: [:new, :edit]
   end
 end

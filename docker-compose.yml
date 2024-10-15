@@ -25,8 +25,7 @@ services:
       - ./backend:/app
     networks:
       - app_network
-    command: ["sh", "-c", "mix deps.get && mix ecto.migrate && mix phx.server"]
-
+    command: ["sh", "-c", "mix deps.get && mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"]
     #  api:
 #    build:
 #      context: ./backend
