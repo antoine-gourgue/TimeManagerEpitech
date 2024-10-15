@@ -31,6 +31,10 @@ config :time_manager, TimeManagerWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :time_manager, TimeManager.Mailer, adapter: Swoosh.Adapters.Local
 
+# Configure JWT secret
+config :time_manager, :jwt_secret, System.get_env("JWT_SECRET") || "9$Gf!3jhYzU8w@F2lQxN#kP7vBmX1pC*5nD8!ZsQ@6uJmA^L2"
+
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",

@@ -8,6 +8,8 @@ defmodule TimeManager.Accounts do
 
   alias TimeManager.Accounts.User
 
+  import Joken
+
   @doc """
   Returns the list of users.
 
@@ -332,5 +334,32 @@ defmodule TimeManager.Accounts do
     """
     def delete_user_team(%UserTeam{} = user_team) do
       Repo.delete(user_team)
+    end
+
+  # Vérifie si le mot de passe est correct
+  def check_password(%User{password: hashed_password}, password) do
+    Bcrypt.verify_pass(password, hashed_password)  # Vérifiez le mot de passe
+  end
+
+  def get_user_by_email(email) do
+    Repo.get_by(User, email: email)
+  end
+
+  def generate_jwt(user) do
+    # Créer un signataire
+    signer = Joken.Signer.create("HS256", Application.get_env(:time_manager, :jwt_secret))
+
+    claims = %{
+      "sub" => user.id,
+      "exp" => Joken.current_time() + 3600  # Token valide pendant 1 heure
+    }
+
+    # Utiliser le signataire pour générer le token
+    case Joken.encode_and_sign(claims, signer) do
+      {:ok, token, _claims} -> token  # Seul le token est retourné
+      {:error, reason} ->
+        IO.inspect(reason, label: "JWT Generation Error")
+        {:error, "Could not generate token"}
+    end
     end
   end
