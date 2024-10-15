@@ -25,13 +25,17 @@ defmodule TimeManagerWeb.Router do
 
     # Routes pour les horloges (Clocks)
     resources "/clocks", ClockController, only: [:index, :show, :create, :update, :delete] do
-      get "/users/:user_id", ClockController, :index_for_user  # Horloges pour un utilisateur spécifique
     end
+
+    get "/clocks/users/:user_id", ClockController, :index_for_user  # Horloges pour un utilisateur spécifique
+
 
     # Routes pour les temps de travail (Working Times)
     resources "/working_times", WorkingTimeController, except: [:new, :edit] do
-      get "/users/:user_id", WorkingTimeController, :index_for_user  # Temps de travail pour un utilisateur
-    end
+  end
+
+    get "/working_times/users/:user_id", WorkingTimeController, :index_for_user  # Temps de travail pour un utilisateur
+
 
     # Routes pour les logs d'audit (Audit Logs)
     resources "/audit_logs", AuditLogController, only: [:index, :show, :create, :delete]

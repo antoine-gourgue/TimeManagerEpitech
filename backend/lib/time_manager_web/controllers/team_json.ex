@@ -20,7 +20,7 @@ defmodule TimeManagerWeb.TeamJSON do
       id: team.id,
       name: team.name,
       inserted_at: team.inserted_at,
-      created_at: team.created_at
+      updated_at: team.updated_at
     }
   end
 end
