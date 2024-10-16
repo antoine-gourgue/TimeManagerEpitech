@@ -5,14 +5,26 @@ defmodule TimeManagerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # Nouveau pipeline pour l'authentification
+  pipeline :authenticated do
+    plug TimeManagerWeb.Plugs.Authenticate  # Ajoutez votre plug d'authentification ici
+    plug :accepts, ["json"]  # Assurez-vous que l'acceptance JSON est toujours incluse
+  end
+
   scope "/api", TimeManagerWeb do
-    pipe_through :api
+    pipe_through :api  # Utiliser le pipeline API pour les routes publiques
+
+    # Route pour l'authentification (login)
+    post "/login", SessionController, :login  # Endpoint pour la connexion
+  end
+
+  scope "/api", TimeManagerWeb do
+    pipe_through [:api, :authenticated]  # Utilisez les pipelines API et authentifiés
 
     # Routes pour les utilisateurs (Users)
     resources "/users", UserController, except: [:new, :edit] do
       put "/promote", UserController, :promote
       get "/teams", UserTeamController, :list_teams  # Récupérer les équipes pour un utilisateur
-      resources "/working_times", WorkingTimeController, only: [:index, :create]
     end
 
     # Routes pour les équipes (Teams)
@@ -29,21 +41,16 @@ defmodule TimeManagerWeb.Router do
 
     get "/clocks/users/:user_id", ClockController, :index_for_user  # Horloges pour un utilisateur spécifique
 
-
     # Routes pour les temps de travail (Working Times)
     resources "/working_times", WorkingTimeController, except: [:new, :edit] do
-  end
+    end
 
     get "/working_times/users/:user_id", WorkingTimeController, :index_for_user  # Temps de travail pour un utilisateur
-
 
     # Routes pour les logs d'audit (Audit Logs)
     resources "/audit_logs", AuditLogController, only: [:index, :show, :create, :delete]
 
     # Routes pour les associations utilisateurs-équipes (User Teams)
     resources "/user_teams", UserTeamController, except: [:new, :edit]
-
-    # Route pour l'authentification (login)
-    post "/login", SessionController, :login  # Endpoint pour la connexion
   end
 end

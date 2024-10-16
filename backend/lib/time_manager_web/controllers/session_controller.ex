@@ -1,28 +1,27 @@
 defmodule TimeManagerWeb.SessionController do
   use TimeManagerWeb, :controller
-
   alias TimeManager.Accounts
 
   def login(conn, %{"email" => email, "password" => password}) do
-    user = Accounts.get_user_by_email(email)
+    IO.inspect(%{email: email, password: password}, label: "Login Attempt")
 
-    case user do
+    case Accounts.get_user_by_email(email) do
       nil ->
         conn
-        |> put_flash(:error, "Invalid email or password.")
-        |> render("login.html")
+        |> put_flash(:error, "Invalid credentials")
+        |> json(%{message: "Invalid email or password."})  # Renvoie une réponse JSON
 
       user ->
         if Accounts.check_password(user, password) do
-          token = Accounts.generate_jwt(user)  # Utilisez la méthode de token
-
+          token = Accounts.generate_jwt(user)
+          IO.inspect(token, label: "Generated JWT Token")
           conn
-          |> put_resp_header("Authorization", "Bearer #{token}")
-          |> json(%{message: "Logged in successfully", token: token})
+          |> put_resp_header("authorization", "Bearer #{token}")
+          |> json(%{message: "Logged in successfully", token: token})  # Réponse JSON sur succès
         else
           conn
-          |> put_flash(:error, "Invalid email or password.")
-          |> render("login.html")
+          |> put_flash(:error, "Invalid credentials")
+          |> json(%{message: "Invalid email or password."})  # Renvoie une réponse JSON
         end
     end
   end

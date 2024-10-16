@@ -5,9 +5,9 @@ defmodule TimeManager.Accounts.User do
 
   schema "users" do
     field :username, :string
-    field :password, :string  # Stockage du mot de passe haché
+    field :password, :string
     field :email, :string
-    field :role_id, :id
+    field :role_id, :integer
 
     timestamps(type: :utc_datetime)
   end
@@ -15,10 +15,11 @@ defmodule TimeManager.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email, :password])
+    |> cast(attrs, [:username, :email, :password, :role_id])
     |> validate_required([:username, :email, :password])
-    |> unique_constraint(:email)  # Assurez-vous que l'email est unique
-    |> hash_password()  # Hachage du mot de passe
+    |> unique_constraint(:email)
+    |> hash_password()
+    |> validate_role_id()
   end
 
   # Hachage du mot de passe avant l'insertion dans la base de données
@@ -36,5 +37,18 @@ defmodule TimeManager.Accounts.User do
   def check_password(user, password) do
     # Utilise Bcrypt pour comparer le mot de passe fourni avec le hachage stocké
     Bcrypt.check_pass(user, password)
+  end
+
+  defp validate_role_id(changeset) do
+    role_id = get_field(changeset, :role_id)
+    if is_nil(role_id) or !is_role_exist(role_id) do
+      add_error(changeset, :role_id, "is invalid")
+    else
+      changeset
+    end
+  end
+
+  defp is_role_exist(role_id) do
+    TimeManager.Repo.get(TimeManager.Accounts.Role, role_id) != nil
   end
 end

@@ -1,302 +1,303 @@
 defmodule TimeManager.Accounts do
-  @moduledoc """
-  The Accounts context.
-  """
+    @moduledoc """
+    The Accounts context.
+    """
 
-  import Ecto.Query, warn: false
-  alias TimeManager.Repo
+    import Ecto.Query, warn: false
+    alias TimeManager.Repo
 
-  alias TimeManager.Accounts.User
+    alias TimeManager.Accounts.User
 
-  import Joken
+    import Joken
+    @jwt_secrete "7c39900646686a9ca177b98e8bc77516dcb867e073b5a52730d80d21e983d6d7"
 
-  @doc """
-  Returns the list of users.
+    @doc """
+    Returns the list of users.
 
-  ## Examples
+    ## Examples
 
-      iex> list_users()
-      [%User{}, ...]
+        iex> list_users()
+        [%User{}, ...]
 
-  """
-  def list_users do
-    Repo.all(User)
-  end
+    """
+    def list_users do
+      Repo.all(User)
+    end
 
-  @doc """
-  Gets a single user.
+    @doc """
+    Gets a single user.
 
-  Raises `Ecto.NoResultsError` if the User does not exist.
+    Raises `Ecto.NoResultsError` if the User does not exist.
 
-  ## Examples
+    ## Examples
 
-      iex> get_user!(123)
+        iex> get_user!(123)
+        %User{}
+
+        iex> get_user!(456)
+        ** (Ecto.NoResultsError)
+
+    """
+    def get_user!(id), do: Repo.get!(User, id)
+
+    @doc """
+    Creates a user.
+
+    ## Examples
+
+        iex> create_user(%{field: value})
+        {:ok, %User{}}
+
+        iex> create_user(%{field: bad_value})
+        {:error, %Ecto.Changeset{}}
+
+    """
+    def create_user(attrs \\ %{}) do
       %User{}
+      |> User.changeset(attrs)
+      |> Repo.insert()
+    end
 
-      iex> get_user!(456)
-      ** (Ecto.NoResultsError)
+    @doc """
+    Updates a user.
 
-  """
-  def get_user!(id), do: Repo.get!(User, id)
+    ## Examples
 
-  @doc """
-  Creates a user.
+        iex> update_user(user, %{field: new_value})
+        {:ok, %User{}}
 
-  ## Examples
+        iex> update_user(user, %{field: bad_value})
+        {:error, %Ecto.Changeset{}}
 
-      iex> create_user(%{field: value})
-      {:ok, %User{}}
+    """
+    def update_user(%User{} = user, attrs) do
+      user
+      |> User.changeset(attrs)
+      |> Repo.update()
+    end
 
-      iex> create_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    @doc """
+    Deletes a user.
 
-  """
-  def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
-  end
+    ## Examples
 
-  @doc """
-  Updates a user.
+        iex> delete_user(user)
+        {:ok, %User{}}
 
-  ## Examples
+        iex> delete_user(user)
+        {:error, %Ecto.Changeset{}}
 
-      iex> update_user(user, %{field: new_value})
-      {:ok, %User{}}
+    """
+    def delete_user(%User{} = user) do
+      Repo.delete(user)
+    end
 
-      iex> update_user(user, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    @doc """
+    Returns an `%Ecto.Changeset{}` for tracking user changes.
 
-  """
-  def update_user(%User{} = user, attrs) do
-    user
-    |> User.changeset(attrs)
-    |> Repo.update()
-  end
+    ## Examples
 
-  @doc """
-  Deletes a user.
+        iex> change_user(user)
+        %Ecto.Changeset{data: %User{}}
 
-  ## Examples
+    """
+    def change_user(%User{} = user, attrs \\ %{}) do
+      User.changeset(user, attrs)
+    end
 
-      iex> delete_user(user)
-      {:ok, %User{}}
+    alias TimeManager.Accounts.Role
 
-      iex> delete_user(user)
-      {:error, %Ecto.Changeset{}}
+    @doc """
+    Returns the list of roles.
 
-  """
-  def delete_user(%User{} = user) do
-    Repo.delete(user)
-  end
+    ## Examples
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user changes.
+        iex> list_roles()
+        [%Role{}, ...]
 
-  ## Examples
+    """
+    def list_roles do
+      Repo.all(Role)
+    end
 
-      iex> change_user(user)
-      %Ecto.Changeset{data: %User{}}
+    @doc """
+    Gets a single role.
 
-  """
-  def change_user(%User{} = user, attrs \\ %{}) do
-    User.changeset(user, attrs)
-  end
+    Raises `Ecto.NoResultsError` if the Role does not exist.
 
-  alias TimeManager.Accounts.Role
+    ## Examples
 
-  @doc """
-  Returns the list of roles.
+        iex> get_role!(123)
+        %Role{}
 
-  ## Examples
+        iex> get_role!(456)
+        ** (Ecto.NoResultsError)
 
-      iex> list_roles()
-      [%Role{}, ...]
+    """
+    def get_role!(id), do: Repo.get!(Role, id)
 
-  """
-  def list_roles do
-    Repo.all(Role)
-  end
+    @doc """
+    Creates a role.
 
-  @doc """
-  Gets a single role.
+    ## Examples
 
-  Raises `Ecto.NoResultsError` if the Role does not exist.
+        iex> create_role(%{field: value})
+        {:ok, %Role{}}
 
-  ## Examples
+        iex> create_role(%{field: bad_value})
+        {:error, %Ecto.Changeset{}}
 
-      iex> get_role!(123)
+    """
+    def create_role(attrs \\ %{}) do
       %Role{}
+      |> Role.changeset(attrs)
+      |> Repo.insert()
+    end
 
-      iex> get_role!(456)
-      ** (Ecto.NoResultsError)
+    @doc """
+    Updates a role.
 
-  """
-  def get_role!(id), do: Repo.get!(Role, id)
+    ## Examples
 
-  @doc """
-  Creates a role.
+        iex> update_role(role, %{field: new_value})
+        {:ok, %Role{}}
 
-  ## Examples
+        iex> update_role(role, %{field: bad_value})
+        {:error, %Ecto.Changeset{}}
 
-      iex> create_role(%{field: value})
-      {:ok, %Role{}}
+    """
+    def update_role(%Role{} = role, attrs) do
+      role
+      |> Role.changeset(attrs)
+      |> Repo.update()
+    end
 
-      iex> create_role(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    @doc """
+    Deletes a role.
 
-  """
-  def create_role(attrs \\ %{}) do
-    %Role{}
-    |> Role.changeset(attrs)
-    |> Repo.insert()
-  end
+    ## Examples
 
-  @doc """
-  Updates a role.
+        iex> delete_role(role)
+        {:ok, %Role{}}
 
-  ## Examples
+        iex> delete_role(role)
+        {:error, %Ecto.Changeset{}}
 
-      iex> update_role(role, %{field: new_value})
-      {:ok, %Role{}}
+    """
+    def delete_role(%Role{} = role) do
+      Repo.delete(role)
+    end
 
-      iex> update_role(role, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    @doc """
+    Returns an `%Ecto.Changeset{}` for tracking role changes.
 
-  """
-  def update_role(%Role{} = role, attrs) do
-    role
-    |> Role.changeset(attrs)
-    |> Repo.update()
-  end
+    ## Examples
 
-  @doc """
-  Deletes a role.
+        iex> change_role(role)
+        %Ecto.Changeset{data: %Role{}}
 
-  ## Examples
+    """
+    def change_role(%Role{} = role, attrs \\ %{}) do
+      Role.changeset(role, attrs)
+    end
 
-      iex> delete_role(role)
-      {:ok, %Role{}}
+    alias TimeManager.Accounts.Team
 
-      iex> delete_role(role)
-      {:error, %Ecto.Changeset{}}
+    @doc """
+    Returns the list of teams.
 
-  """
-  def delete_role(%Role{} = role) do
-    Repo.delete(role)
-  end
+    ## Examples
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking role changes.
+        iex> list_teams()
+        [%Team{}, ...]
 
-  ## Examples
+    """
+    def list_teams do
+      Repo.all(Team)
+    end
 
-      iex> change_role(role)
-      %Ecto.Changeset{data: %Role{}}
+    @doc """
+    Gets a single team.
 
-  """
-  def change_role(%Role{} = role, attrs \\ %{}) do
-    Role.changeset(role, attrs)
-  end
+    Raises `Ecto.NoResultsError` if the Team does not exist.
 
-  alias TimeManager.Accounts.Team
+    ## Examples
 
-  @doc """
-  Returns the list of teams.
+        iex> get_team!(123)
+        %Team{}
 
-  ## Examples
+        iex> get_team!(456)
+        ** (Ecto.NoResultsError)
 
-      iex> list_teams()
-      [%Team{}, ...]
+    """
+    def get_team!(id), do: Repo.get!(Team, id)
 
-  """
-  def list_teams do
-    Repo.all(Team)
-  end
+    @doc """
+    Creates a team.
 
-  @doc """
-  Gets a single team.
+    ## Examples
 
-  Raises `Ecto.NoResultsError` if the Team does not exist.
+        iex> create_team(%{field: value})
+        {:ok, %Team{}}
 
-  ## Examples
+        iex> create_team(%{field: bad_value})
+        {:error, %Ecto.Changeset{}}
 
-      iex> get_team!(123)
+    """
+    def create_team(attrs \\ %{}) do
       %Team{}
+      |> Team.changeset(attrs)
+      |> Repo.insert()
+    end
 
-      iex> get_team!(456)
-      ** (Ecto.NoResultsError)
+    @doc """
+    Updates a team.
 
-  """
-  def get_team!(id), do: Repo.get!(Team, id)
+    ## Examples
 
-  @doc """
-  Creates a team.
+        iex> update_team(team, %{field: new_value})
+        {:ok, %Team{}}
 
-  ## Examples
+        iex> update_team(team, %{field: bad_value})
+        {:error, %Ecto.Changeset{}}
 
-      iex> create_team(%{field: value})
-      {:ok, %Team{}}
+    """
+    def update_team(%Team{} = team, attrs) do
+      team
+      |> Team.changeset(attrs)
+      |> Repo.update()
+    end
 
-      iex> create_team(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    @doc """
+    Deletes a team.
 
-  """
-  def create_team(attrs \\ %{}) do
-    %Team{}
-    |> Team.changeset(attrs)
-    |> Repo.insert()
-  end
+    ## Examples
 
-  @doc """
-  Updates a team.
+        iex> delete_team(team)
+        {:ok, %Team{}}
 
-  ## Examples
+        iex> delete_team(team)
+        {:error, %Ecto.Changeset{}}
 
-      iex> update_team(team, %{field: new_value})
-      {:ok, %Team{}}
+    """
+    def delete_team(%Team{} = team) do
+      Repo.delete(team)
+    end
 
-      iex> update_team(team, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    @doc """
+    Returns an `%Ecto.Changeset{}` for tracking team changes.
 
-  """
-  def update_team(%Team{} = team, attrs) do
-    team
-    |> Team.changeset(attrs)
-    |> Repo.update()
-  end
+    ## Examples
 
-  @doc """
-  Deletes a team.
+        iex> change_team(team)
+        %Ecto.Changeset{data: %Team{}}
 
-  ## Examples
+    """
+    def change_team(%Team{} = team, attrs \\ %{}) do
+      Team.changeset(team, attrs)
+    end
 
-      iex> delete_team(team)
-      {:ok, %Team{}}
-
-      iex> delete_team(team)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_team(%Team{} = team) do
-    Repo.delete(team)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking team changes.
-
-  ## Examples
-
-      iex> change_team(team)
-      %Ecto.Changeset{data: %Team{}}
-
-  """
-  def change_team(%Team{} = team, attrs \\ %{}) do
-    Team.changeset(team, attrs)
-  end
-
-  alias TimeManager.Accounts.UserTeam
+    alias TimeManager.Accounts.UserTeam
 
     @doc """
     Returns the list of user_teams.
@@ -336,30 +337,45 @@ defmodule TimeManager.Accounts do
       Repo.delete(user_team)
     end
 
-  # Vérifie si le mot de passe est correct
-  def check_password(%User{password: hashed_password}, password) do
-    Bcrypt.verify_pass(password, hashed_password)  # Vérifiez le mot de passe
-  end
-
-  def get_user_by_email(email) do
-    Repo.get_by(User, email: email)
-  end
-
-  def generate_jwt(user) do
-    # Créer un signataire
-    signer = Joken.Signer.create("HS256", Application.get_env(:time_manager, :jwt_secret))
-
-    claims = %{
-      "sub" => user.id,
-      "exp" => Joken.current_time() + 3600  # Token valide pendant 1 heure
-    }
-
-    # Utiliser le signataire pour générer le token
-    case Joken.encode_and_sign(claims, signer) do
-      {:ok, token, _claims} -> token  # Seul le token est retourné
-      {:error, reason} ->
-        IO.inspect(reason, label: "JWT Generation Error")
-        {:error, "Could not generate token"}
+    # Vérifie si le mot de passe est correct
+    def check_password(%User{password: hashed_password}, password) do
+      Bcrypt.verify_pass(password, hashed_password)  # Vérifiez le mot de passe
     end
+
+    def get_user_by_email(email) do
+      Repo.get_by(User, email: email)
     end
-  end
+
+    def generate_jwt(user) do
+      # Étape 1 : Créer les claims
+      claims = %{
+        "sub" => user.id,
+        "exp" => Joken.current_time() + 3600  # Token valide pendant 1 heure
+      }
+
+      IO.inspect(claims, label: "Claims to be signed")  # Log des claims
+
+      # Étape 2 : Signer le token avec les claims
+      sign_token(claims)
+    end
+
+    defp sign_token(claims) do
+      # Créer un signataire avec la clé secrète
+      secret = Application.get_env(:time_manager, :jwt_secret)
+
+      # Log de la clé secrète (assurez-vous de ne pas exposer cela en production)
+      IO.inspect(secret, label: "Secret Used for Signing")
+
+      signer = Joken.Signer.create("HS256", secret)
+
+      # Signer le token avec les claims
+      case Joken.encode_and_sign(claims, signer) do
+        {:ok, token, _claims} ->
+          IO.inspect(token, label: "Generated Token")  # Afficher le token généré
+          token
+        {:error, reason} ->
+          IO.inspect(reason, label: "JWT Generation Error")
+          {:error, "Could not generate token"}
+      end
+    end
+end
