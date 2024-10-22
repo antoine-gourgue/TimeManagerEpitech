@@ -44,13 +44,12 @@ defmodule TimeManager.AccountsFixtures do
   def team_fixture(attrs \\ %{}) do
     {:ok, team} =
       attrs
-      |> Enum.into(%{
-        name: "some name"
-      })
+      |> Enum.into(%{name: "some name"})
       |> TimeManager.Accounts.create_team()
 
     team
   end
+
 
   @doc """
   Generate a user_team.

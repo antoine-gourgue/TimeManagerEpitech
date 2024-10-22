@@ -4,6 +4,8 @@ defmodule TimeManagerWeb.TeamControllerTest do
   import TimeManager.AccountsFixtures
 
   alias TimeManager.Teams.Team
+  alias TimeManagerWeb.Router.Helpers, as: Routes
+
 
   @valid_attrs %{name: "Development"}
   @update_attrs %{name: "Marketing"}

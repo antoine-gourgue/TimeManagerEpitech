@@ -47,4 +47,5 @@ jobs:
 
       - name: 🔨 Run tests
         working-directory: ./backend
-        run: mix test
+        run: mix test --trace
+
