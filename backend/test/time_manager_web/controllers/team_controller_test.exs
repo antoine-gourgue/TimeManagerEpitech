@@ -3,7 +3,7 @@ defmodule TimeManagerWeb.TeamControllerTest do
 
   import TimeManager.AccountsFixtures
 
-  alias TimeManager.Teams.Team
+  alias TimeManager.Account.Team
   alias TimeManagerWeb.Router.Helpers, as: Routes
 
 
