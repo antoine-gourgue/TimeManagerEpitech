@@ -3,8 +3,8 @@ defmodule TimeManager.Accounts.UserTeam do
   import Ecto.Changeset
 
   schema "user_teams" do
-    field :user_id, :id
-    field :team_id, :id
+    belongs_to :user, TimeManager.Accounts.User
+    belongs_to :team, TimeManager.Accounts.Team
 
     timestamps(type: :utc_datetime)
   end
@@ -14,5 +14,7 @@ defmodule TimeManager.Accounts.UserTeam do
     user_team
     |> cast(attrs, [:user_id, :team_id])
     |> validate_required([:user_id, :team_id])
+    |> foreign_key_constraint(:user_id)
+    |> foreign_key_constraint(:team_id)
   end
 end
