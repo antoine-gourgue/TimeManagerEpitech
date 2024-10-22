@@ -1,7 +1,7 @@
 defmodule TimeManagerWeb.TeamControllerTest do
   use TimeManagerWeb.ConnCase
 
-  import TimeManager.TeamsFixtures
+  import TimeManager.AccountsFixtures
 
   alias TimeManager.Teams.Team
 
