@@ -2,7 +2,7 @@ defmodule TimeManagerWeb.Plugs.AuthenticateTest do
   use TimeManagerWeb.ConnCase
   import Plug.Test
 
-  alias TimeManager.AccountsFixtures
+  import TimeManager.AccountsFixtures
   alias TimeManagerWeb.Plugs.Authenticate
   alias TimeManager.Accounts  # Pour accéder à Accounts et générer des users
 
