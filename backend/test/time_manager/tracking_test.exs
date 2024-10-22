@@ -7,8 +7,9 @@ defmodule TimeManager.TrackingTest do
     alias TimeManager.Tracking.WorkingTime
 
     import TimeManager.TrackingFixtures
+    import TimeManager.AccountsFixtures
 
-    @invalid_attrs %{type: nil, start_time: nil, end_time: nil}
+    @invalid_attrs %{type: nil, start_time: nil, end_time: nil, user_id: nil}
 
     test "list_working_times/0 returns all working_times" do
       working_time = working_time_fixture()
@@ -21,12 +22,14 @@ defmodule TimeManager.TrackingTest do
     end
 
     test "create_working_time/1 with valid data creates a working_time" do
-      valid_attrs = %{type: "some type", start_time: ~N[2024-10-13 12:16:00], end_time: ~N[2024-10-13 12:16:00]}
+      user = user_fixture()
+      valid_attrs = %{type: "some type", start_time: ~N[2024-10-13 12:16:00], end_time: ~N[2024-10-13 12:16:00], user_id: user.id}
 
       assert {:ok, %WorkingTime{} = working_time} = Tracking.create_working_time(valid_attrs)
       assert working_time.type == "some type"
       assert working_time.start_time == ~N[2024-10-13 12:16:00]
       assert working_time.end_time == ~N[2024-10-13 12:16:00]
+      assert working_time.user_id == user.id
     end
 
     test "create_working_time/1 with invalid data returns error changeset" do
@@ -65,8 +68,9 @@ defmodule TimeManager.TrackingTest do
     alias TimeManager.Tracking.Clock
 
     import TimeManager.TrackingFixtures
+    import TimeManager.AccountsFixtures
 
-    @invalid_attrs %{status: nil, time: nil}
+    @invalid_attrs %{status: nil, time: nil, user_id: nil}
 
     test "list_clocks/0 returns all clocks" do
       clock = clock_fixture()
@@ -79,11 +83,13 @@ defmodule TimeManager.TrackingTest do
     end
 
     test "create_clock/1 with valid data creates a clock" do
-      valid_attrs = %{status: "some status", time: ~N[2024-10-13 12:17:00]}
+      user = user_fixture()
+      valid_attrs = %{status: "some status", time: ~N[2024-10-13 12:17:00], user_id: user.id}
 
       assert {:ok, %Clock{} = clock} = Tracking.create_clock(valid_attrs)
       assert clock.status == "some status"
       assert clock.time == ~N[2024-10-13 12:17:00]
+      assert clock.user_id == user.id
     end
 
     test "create_clock/1 with invalid data returns error changeset" do
