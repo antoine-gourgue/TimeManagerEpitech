@@ -1,15 +1,20 @@
-defmodule TimeManager.Repo.Migrations.CreateUserTeams do
-  use Ecto.Migration
+defmodule TimeManager.Accounts.UserTeam do
+  use Ecto.Schema
+  import Ecto.Changeset
 
-  def change do
-    create table(:user_teams) do
-      add :user_id, references(:users, on_delete: :nothing)
-      add :team_id, references(:teams, on_delete: :nothing)
+  schema "user_teams" do
+    belongs_to :user, TimeManager.Accounts.User
+    belongs_to :team, TimeManager.Accounts.Team
 
-      timestamps(type: :utc_datetime)
-    end
+    timestamps(type: :utc_datetime)
+  end
 
-    create index(:user_teams, [:user_id])
-    create index(:user_teams, [:team_id])
+  @doc false
+  def changeset(user_team, attrs) do
+    user_team
+    |> cast(attrs, [:user_id, :team_id])
+    |> validate_required([:user_id, :team_id])
+    |> foreign_key_constraint(:user_id)
+    |> foreign_key_constraint(:team_id)
   end
 end

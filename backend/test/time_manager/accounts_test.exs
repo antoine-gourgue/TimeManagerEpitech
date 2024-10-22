@@ -26,7 +26,7 @@ defmodule TimeManager.AccountsTest do
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.username == "some username"
-      assert Comeonin.Bcrypt.checkpw("some password", user.password_hash) # Utilise la version correcte pour vérifier le mot de passe
+      assert Comeonin.Bcrypt.checkpw("some password", user.password) # Utilise la version correcte pour vérifier le mot de passe
       assert user.email == "some email"
       assert user.role_id == role.id
     end
@@ -42,7 +42,7 @@ defmodule TimeManager.AccountsTest do
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.username == "some updated username"
-      assert Comeonin.Bcrypt.checkpw("some updated password", user.password_hash) # Utilise la version correcte pour vérifier le mot de passe
+      assert Comeonin.Bcrypt.checkpw("some updated password", user.password) # Utilise la version correcte pour vérifier le mot de passe
       assert user.email == "some updated email"
       assert user.role_id == role.id
     end
@@ -155,7 +155,10 @@ defmodule TimeManager.AccountsTest do
 
     test "update_user_team/2 with invalid data returns error changeset" do
       user_team = user_team_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_user_team(user_team, @invalid_attrs)
+
+      invalid_attrs = %{user_id: nil, team_id: nil}
+
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user_team(user_team, invalid_attrs)
       assert user_team == Accounts.get_user_team!(user_team.id)
     end
 
@@ -165,9 +168,9 @@ defmodule TimeManager.AccountsTest do
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_user_team!(user_team.id) end
     end
 
-    test "change_user_team/1 returns a user_team changeset" do
+    test "update_user_team/1 returns a user_team changeset" do
       user_team = user_team_fixture()
-      assert %Ecto.Changeset{} = Accounts.change_user_team(user_team)
+      assert %Ecto.Changeset{} = Accounts.update_user_team(user_team)
     end
   end
 end
