@@ -246,10 +246,13 @@ defmodule TimeManager.Accounts do
 
     """
     def create_team(attrs \\ %{}) do
-      %Team{}
-      |> Team.changeset(attrs)
-      |> Repo.insert()
-      IO.inspect(result, label: "Result from Repo.insert in create_team")
+      result =
+        %Team{}
+        |> Team.changeset(attrs)
+        |> Repo.insert()  # Le résultat de Repo.insert est maintenant assigné à result
+
+      IO.inspect(result, label: "Result from Repo.insert in create_team")  # Inspecte le résultat
+      result  # Retourne le résultat
     end
 
     @doc """
