@@ -3,6 +3,8 @@ defmodule TimeManagerWeb.UserControllerTest do
 
   import TimeManager.AccountsFixtures
 
+  alias TimeManagerWeb.Router.Helpers, as: Routes
+
   alias TimeManager.Accounts.User
 
   @valid_attrs %{username: "testuser", email: "test@example.com", password: "password"}

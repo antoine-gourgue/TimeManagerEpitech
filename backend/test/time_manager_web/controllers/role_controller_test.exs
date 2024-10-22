@@ -3,6 +3,8 @@ defmodule TimeManagerWeb.RoleControllerTest do
 
   import TimeManager.AccountsFixtures
 
+  alias TimeManagerWeb.Router.Helpers, as: Routes
+
   alias TimeManager.Accounts.Role
 
   @valid_attrs %{name: "Admin"}

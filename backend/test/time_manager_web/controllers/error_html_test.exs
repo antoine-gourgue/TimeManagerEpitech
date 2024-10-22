@@ -1,6 +1,9 @@
 defmodule TimeManagerWeb.ErrorHTMLTest do
   use TimeManagerWeb.ConnCase, async: true
 
+  alias TimeManagerWeb.Router.Helpers, as: Routes
+
+
   # Bring render_to_string/4 for testing custom views
   import Phoenix.Template
 

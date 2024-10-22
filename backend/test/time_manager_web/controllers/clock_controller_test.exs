@@ -4,6 +4,8 @@ defmodule TimeManagerWeb.ClockControllerTest do
   import TimeManager.TrackingFixtures
 
   alias TimeManager.Tracking.Clock
+  alias TimeManagerWeb.Router.Helpers, as: Routes
+
 
   @valid_attrs %{status: "running", time: ~N[2024-10-13 12:17:00]}
   @update_attrs %{status: "stopped", time: ~N[2024-10-14 12:17:00]}

@@ -1,6 +1,8 @@
 defmodule TimeManagerWeb.AuditLogControllerTest do
   use TimeManagerWeb.ConnCase
 
+  alias TimeManagerWeb.Router.Helpers, as: Routes
+
   import TimeManager.AuditFixtures
 
   alias TimeManager.Audit.AuditLog

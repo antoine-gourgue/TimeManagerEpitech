@@ -3,6 +3,8 @@ defmodule TimeManagerWeb.UserTeamControllerTest do
 
   import TimeManager.AccountsFixtures
 
+  alias TimeManagerWeb.Router.Helpers, as: Routes
+
   alias TimeManager.Accounts.UserTeam
 
   @valid_attrs %{user_id: 1, team_id: 1}  # Remplacez par des IDs valides

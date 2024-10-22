@@ -1,6 +1,9 @@
 defmodule TimeManagerWeb.ErrorJSONTest do
   use TimeManagerWeb.ConnCase, async: true
 
+  alias TimeManagerWeb.Router.Helpers, as: Routes
+
+
   test "renders 404" do
     assert TimeManagerWeb.ErrorJSON.render("404.json", %{}) == %{errors: %{detail: "Not Found"}}
   end
