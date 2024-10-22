@@ -11,6 +11,7 @@ defmodule TimeManager.Accounts do
     import Joken
     @jwt_secrete "7c39900646686a9ca177b98e8bc77516dcb867e073b5a52730d80d21e983d6d7"
 
+
     @doc """
     Returns the list of users.
 
@@ -346,11 +347,17 @@ defmodule TimeManager.Accounts do
       Repo.get_by(User, email: email)
     end
 
+    @expiration_time 30 * 24 * 60 * 60  # 30
     def generate_jwt(user) do
+      # Générer un c-xsrf token aléatoire
+      xstf_token = :crypto.strong_rand_bytes(16) |> Base.encode64() |> String.trim_trailing("=")
+
       # Étape 1 : Créer les claims
       claims = %{
         "sub" => user.id,
-        "exp" => Joken.current_time() + 3600  # Token valide pendant 1 heure
+        "role_id" => user.role_id,
+        "exp" => Joken.current_time() + @expiration_time,
+        "xstf" => xstf_token
       }
 
       IO.inspect(claims, label: "Claims to be signed")  # Log des claims

@@ -11,7 +11,13 @@ defmodule TimeManagerWeb.Plugs.Authenticate do
 
         case manual_verify_token(token) do
           {:ok, claims} ->
-            assign(conn, :current_user_id, claims["sub"])
+            if claims["role_id"] == 1 do
+              assign(conn, :current_user_id, claims["sub"])
+            else
+              conn
+              |> send_resp(403, "Forbidden: User role required")
+              |> halt()
+            end
 
           {:error, reason} ->
             IO.inspect(reason, label: "Token Verification Error")

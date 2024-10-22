@@ -1,1 +1,1 @@
-# TimeManagerEpitech
+# Epitech-T-POO-700
