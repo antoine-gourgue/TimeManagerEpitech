@@ -7,6 +7,7 @@ defmodule TimeManager.Accounts do
     alias TimeManager.Repo
 
     alias TimeManager.Accounts.User
+    alias TimeManager.Accounts.Team
 
     import Joken
     @jwt_secrete "7c39900646686a9ca177b98e8bc77516dcb867e073b5a52730d80d21e983d6d7"
