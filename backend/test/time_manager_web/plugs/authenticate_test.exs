@@ -1,6 +1,7 @@
 defmodule TimeManagerWeb.Plugs.AuthenticateTest do
   use TimeManagerWeb.ConnCase
   import Plug.Test
+  # Importer les fixtures existantes
   import TimeManager.AccountsFixtures
 
   alias TimeManagerWeb.Plugs.Authenticate
@@ -8,8 +9,8 @@ defmodule TimeManagerWeb.Plugs.AuthenticateTest do
 
   describe "Authenticate Plug" do
     setup do
-      # Créer un utilisateur avec la fixture
-      user = user_fixture() # ou définir la fonction user_fixture manuellement si elle n'existe pas
+      # Utiliser la fixture importée pour créer un utilisateur
+      user = user_fixture()
       {:ok, conn: build_conn(), user: user}
     end
 
@@ -46,18 +47,5 @@ defmodule TimeManagerWeb.Plugs.AuthenticateTest do
       # Vérifiez que la réponse est 401 Unauthorized
       assert conn.status == 401
     end
-  end
-
-  # Si tu n'as pas de fixtures, tu peux définir user_fixture ici :
-  defp user_fixture(attrs \\ %{}) do
-    {:ok, user} =
-      TimeManager.Accounts.create_user(%{
-        username: attrs[:username] || "test_user",
-        password: attrs[:password] || "password123",
-        email: attrs[:email] || "user@example.com",
-        role_id: attrs[:role_id] || 1  # ou personnalise selon ton schéma
-      })
-
-    user
   end
 end
