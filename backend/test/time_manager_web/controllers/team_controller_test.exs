@@ -38,6 +38,7 @@ defmodule TimeManagerWeb.TeamControllerTest do
     setup [:create_team]
 
     test "renders team when data is valid", %{conn: conn, team: %Team{id: id} = team} do
+      IO.inspect(team, label: "Team in test")
       conn = put(conn, Routes.team_path(conn, :update, team), team: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

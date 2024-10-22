@@ -249,6 +249,7 @@ defmodule TimeManager.Accounts do
       %Team{}
       |> Team.changeset(attrs)
       |> Repo.insert()
+      IO.inspect(result, label: "Result from Repo.insert in create_team")
     end
 
     @doc """

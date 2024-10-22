@@ -46,6 +46,7 @@ defmodule TimeManager.AccountsFixtures do
       attrs
       |> Enum.into(%{name: "some name"})
       |> TimeManager.Accounts.create_team()
+    IO.inspect(team, label: "Team created in fixture")
 
     team
   end
