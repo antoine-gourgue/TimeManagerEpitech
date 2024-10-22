@@ -1,4 +1,5 @@
 defmodule TimeManagerWeb.ConnCaseHelper do
+  import Plug.Conn  # Importation du module nécessaire
   alias TimeManager.Accounts
 
   def authenticate_conn(conn) do
