@@ -25,7 +25,7 @@ defmodule TimeManager.AccountsTest do
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.username == "some username"
-      assert user.password == "some password"
+      assert Comeonin.Bcrypt.checkpw("some password", user.password_hash)
       assert user.email == "some email"
     end
 
@@ -39,7 +39,7 @@ defmodule TimeManager.AccountsTest do
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.username == "some updated username"
-      assert user.password == "some updated password"
+      assert Comeonin.Bcrypt.checkpw("some updated password", user.password_hash)
       assert user.email == "some updated email"
     end
 
@@ -174,7 +174,7 @@ defmodule TimeManager.AccountsTest do
 
     import TimeManager.AccountsFixtures
 
-    @invalid_attrs %{}
+    @invalid_attrs %{user_id: nil, team_id: nil}
 
     test "list_user_teams/0 returns all user_teams" do
       user_team = user_team_fixture()
@@ -187,9 +187,13 @@ defmodule TimeManager.AccountsTest do
     end
 
     test "create_user_team/1 with valid data creates a user_team" do
-      valid_attrs = %{}
+      user = user_fixture()
+      team = team_fixture()
+      valid_attrs = %{user_id: user.id, team_id: team.id}
 
       assert {:ok, %UserTeam{} = user_team} = Accounts.create_user_team(valid_attrs)
+      assert user_team.user_id == user.id
+      assert user_team.team_id == team.id
     end
 
     test "create_user_team/1 with invalid data returns error changeset" do
@@ -198,9 +202,13 @@ defmodule TimeManager.AccountsTest do
 
     test "update_user_team/2 with valid data updates the user_team" do
       user_team = user_team_fixture()
-      update_attrs = %{}
+      user = user_fixture()
+      team = team_fixture()
+      update_attrs = %{user_id: user.id, team_id: team.id}
 
       assert {:ok, %UserTeam{} = user_team} = Accounts.update_user_team(user_team, update_attrs)
+      assert user_team.user_id == user.id
+      assert user_team.team_id == team.id
     end
 
     test "update_user_team/2 with invalid data returns error changeset" do
