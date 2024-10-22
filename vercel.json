@@ -7,16 +7,12 @@
       "config": {
         "distDir": "frontend/dist"
       }
-    },
-    {
-      "src": "backend/mix.exs",
-      "use": "@vercel/deno"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/backend/$1"
+      "dest": "http://your-backend-url/api/$1"
     },
     {
       "src": "/(.*)",
