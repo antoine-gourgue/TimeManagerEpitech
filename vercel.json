@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"  // Répertoire de sortie de votre frontend
+      }
+    },
+    {
+      "src": "backend/mix.exs",
+      "use": "@vercel/deno" // Remplacer par un builder approprié si nécessaire
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/$1" // Redirige les requêtes API vers le backend
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/$1" // Redirige les autres requêtes vers le frontend
+    }
+  ]
+}
