@@ -7,7 +7,6 @@ defmodule TimeManager.AccountsTest do
     alias TimeManager.Accounts.User
 
     import TimeManager.AccountsFixtures
-    import TimeManager.RolesFixtures # Pour gérer les rôles dans les tests
 
     @invalid_attrs %{username: nil, password: nil, email: nil}
 
