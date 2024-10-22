@@ -1,9 +1,9 @@
 defmodule TimeManagerWeb.Plugs.AuthenticateTest do
   use TimeManagerWeb.ConnCase
   import Plug.Test
-  # Importer les fixtures existantes
   import TimeManager.AccountsFixtures
-
+  
+  alias TimeManager.Accounts
   alias TimeManagerWeb.Plugs.Authenticate
   alias TimeManagerWeb.Auth
 
@@ -16,8 +16,7 @@ defmodule TimeManagerWeb.Plugs.AuthenticateTest do
 
     test "allows access with valid token", %{conn: conn, user: user} do
       # Générer un token JWT valide pour l'utilisateur
-      valid_token = Auth.generate_jwt(user)
-
+      valid_token = TimeManager.Accounts.generate_jwt(user)  # Utilise la bonne fonction pour générer le JWT
       # Ajouter le token dans l'en-tête Authorization
       conn = put_req_header(conn, "authorization", "Bearer #{valid_token}")
 

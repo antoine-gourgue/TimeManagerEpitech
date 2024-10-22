@@ -26,10 +26,14 @@ defmodule TimeManager.AccountsTest do
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.username == "some username"
-      assert Bcrypt.verify_pass("some updated password", user.password) # Utilise la version correcte pour vérifier le mot de passe
+
+      # Utilise le bon mot de passe pour la vérification
+      assert Bcrypt.verify_pass("some password", user.password) # Compare avec le mot de passe d'origine
+
       assert user.email == "some email"
       assert user.role_id == role.id
     end
+
 
     test "create_user/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
